@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7.11
+    ports:
+      - 3309:3306
+    command: "mysqld --datadir=/var/lib/mysql --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=kenken2
+    volumes:
+      - $HOME/work/docker/mysql/kenken2:/var/lib/mysql
+
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - transport.host=0.0.0.0
+    volumes:
+      - $HOME/work/docker/elasticsearch/kenken2/data:/usr/share/elasticsearch/data
+      - $HOME/work/docker/elasticsearch/kenken2/conf:/usr/share/elasticsearch/config
+      - $HOME/work/docker/elasticsearch/kenken2/plugins:/usr/share/elasticsearch/plugins
+
+  kibana:
+    image: kibana
+    ports:
+      - 5601:5601
